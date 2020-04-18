@@ -84,6 +84,7 @@ async def fight(ctx):
     player_stats = [100,100]
     spell_prob = [.25,.25,.25,.25]
     full_dmg  =  30.
+    mana_mult = 20.
 
     def damage(response):
         # object conating data about the attack [spell, dmg]
@@ -102,6 +103,11 @@ async def fight(ctx):
                 wizard_stats[0] -= dam 
             else:
                 player_stats[0] -= dam 
+
+        if player_turn:
+            player_stats[1] -=  spell_prob[response] * mana_mult
+        else:
+            wizard_stats[1] -=  spell_prob[response] * mana_mult
         
         for i in range(0,len(spell_prob)):
             if i == response:
@@ -116,10 +122,10 @@ async def fight(ctx):
             player_turn_response = (
                 f'\nYour Turn!\nHealth: {player_stats[0]}, Mana: {player_stats[1]}\n\n'
                 f'What do you do? (Full spell damage: {full_dmg})\n'
-                f'1. Fire spell  ({spell_prob[0]} probability for full dmg)\n'
-                f'2. Ice spell  ({spell_prob[1]} probability for full dmg)\n'
-                f'3. Wind spell  ({spell_prob[2]} probability for full dmg)\n'
-                f'4. Earth spell  ({spell_prob[3]} probability for full dmg)\n'
+                f'1. Fire spell  ({spell_prob[0] * mana_mult} mana)  ({spell_prob[0]} probability for full dmg)\n'
+                f'2. Ice spell ({spell_prob[1] * mana_mult} mana) ({spell_prob[1]} probability for full dmg)\n'
+                f'3. Wind spell ({spell_prob[2] * mana_mult} mana) ({spell_prob[2]} probability for full dmg)\n'
+                f'4. Earth spell ({spell_prob[3] * mana_mult} mana) ({spell_prob[3]} probability for full dmg)\n'
                 'Act in 30 seconds!\n'
                 '\n'
             )
