@@ -40,7 +40,7 @@ async def on_ready():
 async def help_list(ctx):
     response = (
         'Behold, puny mortals, for I am  the mighty Village Wizard!\n'
-        'Fight me, if you dare...'
+        'Fight me, if you dare...\n'
         '(Use the w>help command for a list of what I can do.)'
     )
     await ctx.send(response)
@@ -55,23 +55,25 @@ async def leave_test(ctx):
     await ctx.voice_client.disconnect() 
 
 @bot.command(name='fight',  help='Challenge the wizard to a duel.')
-def check(author):
-    def inner_check(message):
-        if message.author != author:
-            return False
-        try:
-            int(message.content)
-            if (message.content == "1" or  message.content == "2" or message.content == "3" or message.content == "4"):
-                return True
-            else:
-                return False
-        except ValueError:
-            return False
-        return inner_check
-    return inner_check
+
  
 
 async def fight(ctx):
+    def check(author):
+        def inner_check(message):
+            if message.author != author:
+                return False
+            try:
+                int(message.content)
+                if (message.content == "1" or  message.content == "2" or message.content == "3" or message.content == "4"):
+                    return True
+                else:
+                    return False
+            except ValueError:
+                return False
+            return inner_check
+        return inner_check
+
     initial_response = (
         'So,  you wish to  fight  me? Very well...'
     )
@@ -108,7 +110,7 @@ async def fight(ctx):
             
             player_turn_response = (
                 f'Your Turn!\nHealth: {player_stats[0]}, Mana: {player_stats[1]}\n\n'
-                'What do you do? (Full spell damage: {full_dmg})\n'
+                f'What do you do? (Full spell damage: {full_dmg})\n'
                 f'1. Fire spell  ({spell_prob[0]} probability for full dmg)\n'
                 f'2. Ice spell  ({spell_prob[1]} probability for full dmg)\n'
                 f'3. Wind spell  ({spell_prob[2]} probability for full dmg)\n'
@@ -117,12 +119,13 @@ async def fight(ctx):
             )
             await ctx.send(player_turn_response)
             player_response = await bot.wait_for('message', check=check(ctx.author), timeout=30)
-            damage(player_response) 
+            p_response = int(player_response.content)
+            damage(p_response) 
         else:
             
             wiz_turn_response = (
                 f'My Turn!\nHealth: {wizard_stats[0]}, Mana: {wizard_stats[1]}\n\n'
-                'What do you do? (Full spell damage: {full_dmg})\n'
+                f'What do you do? (Full spell damage: {full_dmg})\n'
                 f'1. Fire spell  ({spell_prob[0]} probability for full dmg)\n'
                 f'2. Ice spell  ({spell_prob[1]} probability for full dmg)\n'
                 f'3. Wind spell  ({spell_prob[2]} probability for full dmg)\n'
