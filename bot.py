@@ -121,12 +121,12 @@ async def fight(ctx):
         if player_turn:
             
             player_turn_response = (
-                f'\nYour Turn!\nHealth: {player_stats[0]}, Mana: {player_stats[1]}\n\n'
+                f'\nYour Turn!\nHealth: {player_stats[0]:.2f}, Mana: {player_stats[1]:.2f}\n\n'
                 f'What do you do? (Full spell damage: {full_dmg})\n'
-                f'1. Fire spell ({spell_prob[0]} probability for full dmg) ({spell_prob[0] * mana_mult} mana)\n'
-                f'2. Ice spell ({spell_prob[1]} probability for full dmg) ({spell_prob[1] * mana_mult} mana)\n'
-                f'3. Wind spell ({spell_prob[2]} probability for full dmg) ({spell_prob[2] * mana_mult} mana)\n'
-                f'4. Earth spell ({spell_prob[3]} probability for full dmg) ({spell_prob[3] * mana_mult} mana)\n'
+                f'1. Fire spell ({spell_prob[0]:.2f} probability for full dmg) ({(spell_prob[0] * mana_mult):.2f} mana)\n'
+                f'2. Ice spell ({spell_prob[1]:.2f} probability for full dmg) ({(spell_prob[1] * mana_mult):.2f} mana)\n'
+                f'3. Wind spell ({spell_prob[2]:.2f} probability for full dmg) ({(spell_prob[2] * mana_mult):.2f} mana)\n'
+                f'4. Earth spell ({spell_prob[3]:.2f} probability for full dmg) ({(spell_prob[3] * mana_mult):.2f} mana)\n'
                 'Act in 30 seconds!\n'
                 '\n'
             )
@@ -138,12 +138,12 @@ async def fight(ctx):
         else:
             
             wiz_turn_response = (
-                f'\nMy Turn!\nHealth: {wizard_stats[0]}, Mana: {wizard_stats[1]}\n\n'
+                f'\nMy Turn!\nHealth: {wizard_stats[0]:.2f}, Mana: {wizard_stats[1]:.2f}\n\n'
                 f'What shall I do? (Full spell damage: {full_dmg})\n'
-                f'1. Fire spell  ({spell_prob[0]} probability for full dmg) ({spell_prob[0] * mana_mult} mana)\n'
-                f'2. Ice spell  ({spell_prob[1]} probability for full dmg) ({spell_prob[1] * mana_mult} mana)\n'
-                f'3. Wind spell  ({spell_prob[2]} probability for full dmg) ({spell_prob[2] * mana_mult} mana)\n'
-                f'4. Earth spell  ({spell_prob[3]} probability for full dmg) ({spell_prob[3] * mana_mult} mana)\n\n'
+                f'1. Fire spell  ({spell_prob[0]:.2f} probability for full dmg) ({(spell_prob[0] * mana_mult):.2f} mana)\n'
+                f'2. Ice spell  ({spell_prob[1]:.2f} probability for full dmg) ({(spell_prob[1] * mana_mult):.2f} mana)\n'
+                f'3. Wind spell  ({spell_prob[2]:.2f} probability for full dmg) ({(spell_prob[2] * mana_mult):.2f} mana)\n'
+                f'4. Earth spell  ({spell_prob[3]:.2f} probability for full dmg) ({(spell_prob[3] * mana_mult):.2f} mana)\n\n'
             )
             await ctx.send(wiz_turn_response)
             wiz_response = random.randint(0,3) 
