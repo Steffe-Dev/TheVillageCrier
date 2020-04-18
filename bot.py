@@ -41,6 +41,7 @@ async def help_list(ctx):
     response = (
         'Behold, puny mortals, for I am  the mighty Village Wizard!\n'
         'Fight me, if you dare...\n'
+        'Not even STeFFe, my creator, can stop me!'
         '(Use the w>help command for a list of what I can do.)'
     )
     await ctx.send(response)
