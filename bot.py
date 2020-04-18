@@ -83,17 +83,21 @@ async def fight(ctx):
     wizard_stats = [100,100]
     player_stats = [100,100]
     spell_prob = [.25,.25,.25,.25]
-    full_dmg  =  30
+    full_dmg  =  30.
 
     def damage(response):
+        # object conating data about the attack [spell, dmg]
+        data  =  [response,0.0]
         rand = random.uniform(0,1)
-        if rand > (100 - spell_prob[response]):
+        if rand > (1 - spell_prob[response]):
+            data[1] = full_dmg
             if player_turn:
                 wizard_stats[0] -= full_dmg
             else:
                 player_stats[0] -= full_dmg
         else:
-            dam =  (spell_prob[response] + rand)
+            dam =  (spell_prob[response] + rand) * full_dmg
+            data[1] = dam
             if player_turn:
                 wizard_stats[0] -= dam 
             else:
@@ -104,36 +108,40 @@ async def fight(ctx):
                 spell_prob[i] -= 0.05 * spell_prob[i]
             else:
                 spell_prob[i] += 0.05 * spell_prob[i]
+        return data
 
     while player_stats[0] > 0 and wizard_stats[0] > 0:
         if player_turn:
             
             player_turn_response = (
-                f'Your Turn!\nHealth: {player_stats[0]}, Mana: {player_stats[1]}\n\n'
+                f'\nYour Turn!\nHealth: {player_stats[0]}, Mana: {player_stats[1]}\n\n'
                 f'What do you do? (Full spell damage: {full_dmg})\n'
                 f'1. Fire spell  ({spell_prob[0]} probability for full dmg)\n'
                 f'2. Ice spell  ({spell_prob[1]} probability for full dmg)\n'
                 f'3. Wind spell  ({spell_prob[2]} probability for full dmg)\n'
                 f'4. Earth spell  ({spell_prob[3]} probability for full dmg)\n'
-                'Act in 30 seconds!'
+                'Act in 30 seconds!\n'
+                '\n'
             )
             await ctx.send(player_turn_response)
             player_response = await bot.wait_for('message', check=check(ctx.author), timeout=30)
-            p_response = int(player_response.content)
-            damage(p_response) 
+            p_response = int(player_response.content) -  1
+            data_p = damage(p_response) 
+            await ctx.send(f'{data_p[0]+1} was used and did {data_p[1]} damage!\n')
         else:
             
             wiz_turn_response = (
-                f'My Turn!\nHealth: {wizard_stats[0]}, Mana: {wizard_stats[1]}\n\n'
+                f'\nMy Turn!\nHealth: {wizard_stats[0]}, Mana: {wizard_stats[1]}\n\n'
                 f'What do you do? (Full spell damage: {full_dmg})\n'
                 f'1. Fire spell  ({spell_prob[0]} probability for full dmg)\n'
                 f'2. Ice spell  ({spell_prob[1]} probability for full dmg)\n'
                 f'3. Wind spell  ({spell_prob[2]} probability for full dmg)\n'
-                f'4. Earth spell  ({spell_prob[3]} probability for full dmg)\n'
+                f'4. Earth spell  ({spell_prob[3]} probability for full dmg)\n\n'
             )
             await ctx.send(wiz_turn_response)
-            wiz_response = random.randint(1,4) 
-            damage(wiz_response)
+            wiz_response = random.randint(0,3) 
+            data_w = damage(wiz_response)
+            await ctx.send(f'{data_w[0]+1} was used and did {data_w[1]} damage!\n')
         player_turn = not player_turn
 
     if player_stats[0] <= 0:
