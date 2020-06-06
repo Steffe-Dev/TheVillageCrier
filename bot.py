@@ -121,14 +121,15 @@ async def fight(ctx):
         if player_turn:
             
             player_turn_response = (
-                f'\nYour Turn!\nHealth: {player_stats[0]:.2f}, Mana: {player_stats[1]:.2f}\n\n'
+                f'========================================\n'
+                f'Your Turn!\nHealth: {player_stats[0]:.2f}, Mana: {player_stats[1]:.2f}\n\n'
                 f'What do you do? (Full spell damage: {full_dmg})\n'
                 f'1. Fire spell ({spell_prob[0]:.2f} probability for full dmg) ({(spell_prob[0] * mana_mult):.2f} mana)\n'
                 f'2. Ice spell ({spell_prob[1]:.2f} probability for full dmg) ({(spell_prob[1] * mana_mult):.2f} mana)\n'
                 f'3. Wind spell ({spell_prob[2]:.2f} probability for full dmg) ({(spell_prob[2] * mana_mult):.2f} mana)\n'
                 f'4. Earth spell ({spell_prob[3]:.2f} probability for full dmg) ({(spell_prob[3] * mana_mult):.2f} mana)\n'
                 'Act in 30 seconds!\n'
-                '\n'
+                f'========================================\n'
             )
             await ctx.send(player_turn_response)
             player_response = await bot.wait_for('message', check=check(ctx.author), timeout=30)
@@ -138,12 +139,14 @@ async def fight(ctx):
         else:
             
             wiz_turn_response = (
-                f'\nMy Turn!\nHealth: {wizard_stats[0]:.2f}, Mana: {wizard_stats[1]:.2f}\n\n'
+                f'========================================\n'
+                f'My Turn!\nHealth: {wizard_stats[0]:.2f}, Mana: {wizard_stats[1]:.2f}\n\n'
                 f'What shall I do? (Full spell damage: {full_dmg})\n'
                 f'1. Fire spell  ({spell_prob[0]:.2f} probability for full dmg) ({(spell_prob[0] * mana_mult):.2f} mana)\n'
                 f'2. Ice spell  ({spell_prob[1]:.2f} probability for full dmg) ({(spell_prob[1] * mana_mult):.2f} mana)\n'
                 f'3. Wind spell  ({spell_prob[2]:.2f} probability for full dmg) ({(spell_prob[2] * mana_mult):.2f} mana)\n'
-                f'4. Earth spell  ({spell_prob[3]:.2f} probability for full dmg) ({(spell_prob[3] * mana_mult):.2f} mana)\n\n'
+                f'4. Earth spell  ({spell_prob[3]:.2f} probability for full dmg) ({(spell_prob[3] * mana_mult):.2f} mana)\n'
+                f'========================================\n'
             )
             await ctx.send(wiz_turn_response)
             wiz_response = random.randint(0,3) 
