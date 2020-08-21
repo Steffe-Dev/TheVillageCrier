@@ -35,6 +35,7 @@ async def on_ready():
 
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
+    await bot.change_presence(activity=discord.Game(name="w>help"))
 
 @bot.command(name='hi', help='Prints a greeting')
 async def help_list(ctx):
